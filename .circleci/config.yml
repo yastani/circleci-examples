@@ -3,55 +3,35 @@ version: 2.1
 orbs:
   sam: circleci/aws-sam-serverless@2.0.0
   slack: circleci/slack@3.4.2
+  orb-tools: circleci/orb-tools@10.0
+  shellcheck: circleci/shellcheck@2.0
 
 jobs:
-  send_approval_link:
-    executor: slack/default
-    steps:
-      - slack/notify:
-          message: |
-            Please check and approve Job to deploy.
-            https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}
-          webhook: ${SLACK_WEBHOOK_URL}
-  test_hello_api:
+  test_local_invoke:
     executor: sam/default
     steps:
-      - run: echo "hello test"
+      - checkout
+      - sam/install
+      - sam/local-start-api:
+          template: "./sam-app/template.yaml"
+          endpoint: "hello"
 
 workflows:
-  version: 2
-
-  build_and_deploy:
+  test-pack:
     jobs:
-      - sam/build:
-          name: build stage
-          stack-name: build-production
-          aws-region: ap-northeast-1
-          template: aws-sam-serverless/sam-app/template.yaml
-          debug: true
-
-      - send_approval_link:
-          requires:
-            - sam/build
-          filters:
-            branches:
-              only: main
-
-      - manual_approval:
+      - orb-tools/lint
+      - orb-tools/pack
+      - hold-for-dev-publish:
           type: approval
           requires:
-            - send_approval_link
-          filters:
-            branches:
-              only: main
-
-      - sam/deploy:
+            - orb-tools/lint
+            - orb-tools/pack
+      - orb-tools/publish-dev:
+          orb-name: circleci/aws-sam-serverless
+          context: orb-publishing 
+          requires: [hold-for-dev-publish]
+      - orb-tools/trigger-integration-tests-workflow:
+          name: trigger-integration-dev
+          context: orb-publishing
           requires:
-            - manual_approval
-          filters:
-            branches:
-              only: main
-          name: deploy stage
-          stack-name: deploy-production
-          aws-region: ap-northeast-1
-          template: aws-sam-serverless/sam-app/template.yaml
+            - orb-tools/publish-dev
