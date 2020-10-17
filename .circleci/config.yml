@@ -14,15 +14,19 @@ jobs:
       - sam/local-start-api:
           template: "./sam-app/template.yaml"
           endpoint: "hello"
+  notify:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - slack/notify:
+          message: test
 
 workflows:
   test-pack:
     jobs:
       - orb-tools/lint
       - orb-tools/pack
-      - slack/notify:
-          message: notify test
-          when: on_success
+      - notify
       - hold-for-dev-publish:
           type: approval
           requires:
@@ -31,7 +35,7 @@ workflows:
       #- orb-tools/publish-dev:
       #    orb-name: circleci/aws-sam-serverless
       #    context: orb-publishing
-      #    requires: 
+      #    requires:
       #      - hold-for-dev-publish
       #- orb-tools/trigger-integration-tests-workflow:
       #    name: trigger-integration-dev
