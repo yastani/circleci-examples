@@ -4,7 +4,6 @@ orbs:
   sam: circleci/aws-sam-serverless@2.0.0
   slack: circleci/slack@4.0.1
   orb-tools: circleci/orb-tools@10.0
-
 jobs:
   test_local_invoke:
     executor: sam/default
@@ -15,18 +14,18 @@ jobs:
           template: "./sam-app/template.yaml"
           endpoint: "hello"
   notify:
-    executor: cimg/base:stable
+    docker:
+      - image: "cimg/base:stable"
     steps:
-      - slack/notify:
-          message: 'yes'
-          webhook: '${SLACK_WEBHOOK}'
-
-
+      - run: echo "deploy my app"
 workflows:
+  version: 2
   test-pack:
     jobs:
       - orb-tools/lint
       - orb-tools/pack
+  btd:
+    jobs:
       - notify
       #- hold-for-dev-publish:
       #    type: approval
