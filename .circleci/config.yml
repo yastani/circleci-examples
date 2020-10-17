@@ -19,8 +19,6 @@ jobs:
     steps:
       - run: echo "deploy my app"
       - slack/notify:
-          message: "hello test"
-      - slack/notify:
           event: always
           custom: |
             {
