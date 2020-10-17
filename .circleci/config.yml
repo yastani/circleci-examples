@@ -17,9 +17,8 @@ jobs:
   notify:
     executor: cimg/base:stable
     steps:
-      - slack/status:
-          success_message: 'yes'
-          failure_message: 'no'
+      - slack/notify:
+          message: 'yes'
           webhook: '${SLACK_WEBHOOK}'
 
 
