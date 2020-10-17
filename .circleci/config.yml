@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   sam: circleci/aws-sam-serverless@2.0.0
-  slack: circleci/slack@4.0
+  slack: circleci/slack@4.0.1
   orb-tools: circleci/orb-tools@10.0
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
       - image: "cimg/base:stable"
     steps:
       - slack/notify:
-          message: test
+          run: echo "notify test"
 
 workflows:
   test-pack:
