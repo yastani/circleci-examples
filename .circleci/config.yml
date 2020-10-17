@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   sam: circleci/aws-sam-serverless@2.0.0
+
 jobs:
   build_and_package:
     executor: sam/default
@@ -9,4 +10,8 @@ jobs:
       - checkout
       - sam/install
       - sam/local-start-api
-workflows: null
+
+workflows: 
+  test:
+    jobs:
+      - build_and_package
