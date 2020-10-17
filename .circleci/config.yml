@@ -23,4 +23,4 @@ workflows:
   integration-test_deploy:
     when: << pipeline.parameters.run-integration-tests >>
     jobs:
-      - test_local_invoke:
+      - test_local_invoke
