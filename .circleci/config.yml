@@ -3,15 +3,24 @@ version: 2.1
 orbs:
   sam: circleci/aws-sam-serverless@2.0.0
 
+parameters:
+  run-integration-tests:
+    description: An internal flag to prevent integration test from running before a development version has been created.
+    type: boolean
+    default: false
+
 jobs:
-  build_and_package:
+  test_local_invoke:
     executor: sam/default
     steps:
       - checkout
       - sam/install
-      - sam/local-start-api
+      - sam/local-start-api:
+          template: "./sam-app/template.yaml"
+          endpoint: "hello"
 
 workflows: 
-  test:
+  integration-test_deploy:
+    when: << pipeline.parameters.run-integration-tests >>
     jobs:
-      - build_and_package
+      - test_local_invoke:
