@@ -1,0 +1,32 @@
+version: 2.1
+description: "aws sam serverless orb"
+
+commands:
+  test_hello_api:
+    steps:
+      - run:
+          name: Echo "test HelloAPI"
+          command: sam local api-test
+  build:
+    steps:
+      - run:
+          name: Echo "lets Build..."
+          command: sam build
+
+  deploy:
+    steps:
+      - run:
+          name: Echo "lets Deploy!!"
+          command: sam deploy
+
+executors:
+  default:
+    docker:
+      - image: sam/default
+
+jobs:
+  build_and_deploy:
+    executor: default
+    steps:
+      - build
+      - deploy
