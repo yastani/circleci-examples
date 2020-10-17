@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   sam: circleci/aws-sam-serverless@2.0.0
-  slack: circleci/slack@3.4.2
+  slack: circleci/slack@4.0
   orb-tools: circleci/orb-tools@10.0
 
 jobs:
@@ -20,17 +20,21 @@ workflows:
     jobs:
       - orb-tools/lint
       - orb-tools/pack
+      - slack/notify:
+          message: notify test
+          when: on_success
       - hold-for-dev-publish:
           type: approval
           requires:
             - orb-tools/lint
             - orb-tools/pack
-      - orb-tools/publish-dev:
-          orb-name: circleci/aws-sam-serverless
-          context: orb-publishing
-          requires: [hold-for-dev-publish]
-      - orb-tools/trigger-integration-tests-workflow:
-          name: trigger-integration-dev
-          context: orb-publishing
-          requires:
-            - orb-tools/publish-dev
+      #- orb-tools/publish-dev:
+      #    orb-name: circleci/aws-sam-serverless
+      #    context: orb-publishing
+      #    requires: 
+      #      - hold-for-dev-publish
+      #- orb-tools/trigger-integration-tests-workflow:
+      #    name: trigger-integration-dev
+      #    context: orb-publishing
+      #    requires:
+      #      - orb-tools/publish-dev

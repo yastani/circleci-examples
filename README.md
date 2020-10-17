@@ -1,3 +1,5 @@
+[![yastani](https://circleci.com/pipelines/github/yastani/circleci-examples.svg?style=svg)](<LINK>)
+
 # AWS SAM Serverless
 
 ## Operations
@@ -17,3 +19,4 @@ CircleCI
 
 ブランチを切る
 git push --set-upstream origin circleci-project-setup
+
