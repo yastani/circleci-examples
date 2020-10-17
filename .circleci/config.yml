@@ -19,7 +19,8 @@ jobs:
     steps:
       - run: echo "deploy my app"
       - slack/notify:
-          channel: 'CPJ72N2UV'
+          message: "hello test"
+      - slack/notify:
           event: always
           custom: |
             {
