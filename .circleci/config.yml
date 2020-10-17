@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   sam: circleci/aws-sam-serverless@2.0.0
-  slack: circleci/slack@4.0.1
+  #slack: circleci/slack@4.0.1
   orb-tools: circleci/orb-tools@10.0
 
 jobs:
@@ -14,19 +14,13 @@ jobs:
       - sam/local-start-api:
           template: "./sam-app/template.yaml"
           endpoint: "hello"
-  notify:
-    docker:
-      - image: "cimg/base:stable"
-    steps:
-      - slack/notify:
-          run: echo "notify test"
 
 workflows:
   test-pack:
     jobs:
       - orb-tools/lint
       - orb-tools/pack
-      - notify
+      #- notify
       - hold-for-dev-publish:
           type: approval
           requires:
