@@ -19,7 +19,8 @@ jobs:
     steps:
       - run: echo "deploy my app"
       - slack/notify:
-          webhook: '${SLACK_WEBHOOK}'
+          channel: 'CPJ72N2UV'
+          event: always
           custom: |
             {
               "blocks": [
@@ -35,7 +36,6 @@ jobs:
                 }
               ]
             }
-          event: always
 workflows:
   version: 2
   test-pack:
