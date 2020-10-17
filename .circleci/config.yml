@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   sam: circleci/aws-sam-serverless@2.0.0
-  #slack: circleci/slack@4.0.1
+  slack: circleci/slack@4.0.1
   orb-tools: circleci/orb-tools@10.0
 
 jobs:
@@ -14,6 +14,14 @@ jobs:
       - sam/local-start-api:
           template: "./sam-app/template.yaml"
           endpoint: "hello"
+  notify:
+    executor: cimg/base:stable
+    steps:
+      - slack/status:
+          success_message: 'yes'
+          failure_message: 'no'
+          webhook: '${SLACK_WEBHOOK}'
+
 
 workflows:
   test-pack:
