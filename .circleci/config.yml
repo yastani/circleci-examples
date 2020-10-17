@@ -28,12 +28,12 @@ workflows:
     jobs:
       - orb-tools/lint
       - orb-tools/pack
-      #- notify
-      - hold-for-dev-publish:
-          type: approval
-          requires:
-            - orb-tools/lint
-            - orb-tools/pack
+      - notify
+      #- hold-for-dev-publish:
+      #    type: approval
+      #    requires:
+      #      - orb-tools/lint
+      #      - orb-tools/pack
       #- orb-tools/publish-dev:
       #    orb-name: circleci/aws-sam-serverless
       #    context: orb-publishing
