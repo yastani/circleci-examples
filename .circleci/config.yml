@@ -7,7 +7,7 @@ parameters:
   run-integration-tests:
     description: An internal flag to prevent integration test from running before a development version has been created.
     type: boolean
-    default: false
+    default: true
 
 jobs:
   test_local_invoke:
