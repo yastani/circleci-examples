@@ -7,7 +7,7 @@ parameters:
   run_integration_tests:
     description: An internal flag to prevent integration local test from running before a development version has been created.
     type: boolean
-    default: true
+    default: false
 
 jobs:
   test_local_invoke:
@@ -25,11 +25,27 @@ workflows:
     when: << pipeline.parameters.run_integration_tests >>
     jobs:
       - test_local_invoke
-  delivery_deploy_app:
+  delivery_deploy_app_dev:
     jobs:
       - sam/deploy:
-          #capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
+          capabilities: '"CAPABILITY_IAM"'
           name: deploy-app-dev
           template: "./sam-app/template.yaml"
-          stack-name: "orb-deploy-app-dev"
+          stack-name: "sam-deploy-app-dev"
           s3-bucket: "testing-orbs-yastani"
+        filters:
+            branches:
+              only:
+                - dev
+  delivery_deploy_app_prod:
+    jobs:
+      - sam/deploy:
+          capabilities: '"CAPABILITY_IAM"'
+          name: deploy-app-prod
+          template: "./sam-app/template.yaml"
+          stack-name: "sam-deploy-app-prod"
+          s3-bucket: "testing-orbs-yastani"
+        filters:
+            branches:
+              only:
+                - master
