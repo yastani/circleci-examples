@@ -33,19 +33,7 @@ workflows:
           template: "./sam-app/template.yaml"
           stack-name: "sam-deploy-app-dev"
           s3-bucket: "testing-orbs-yastani"
-        filters:
-            branches:
-              only:
-                - dev
-  delivery_deploy_app_prod:
-    jobs:
-      - sam/deploy:
-          capabilities: '"CAPABILITY_IAM"'
-          name: deploy-app-prod
-          template: "./sam-app/template.yaml"
-          stack-name: "sam-deploy-app-prod"
-          s3-bucket: "testing-orbs-yastani"
-        filters:
-            branches:
-              only:
-                - master
+          filters:
+              branches:
+                only:
+                  - master
