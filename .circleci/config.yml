@@ -15,9 +15,10 @@ jobs:
     steps:
       - checkout
       - sam/install:
-          aws-access-key-id: "${AWS_ACCESS_KEY_ID_DEV}"
-          aws-secret-access-key: "${AWS_SECRET_ACCESS_KEY_DEV}"
-          aws-region: "ap-northeast-1"
+          parameters:
+            aws-access-key-id: "${AWS_ACCESS_KEY_ID_DEV}"
+            aws-secret-access-key: "${AWS_SECRET_ACCESS_KEY_DEV}"
+            aws-region: "ap-northeast-1"
       - sam/local-start-api:
           template: "./sam-app/template.yaml"
           endpoint: "hello"
