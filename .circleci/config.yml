@@ -32,4 +32,4 @@ workflows:
           name: deploy-app-dev
           template: "./sam-app/template.yaml"
           stack-name: "orb-deploy-app-dev"
-          #s3-bucket: "testing-orbs-yastani"
+          s3-bucket: "testing-orbs-yastani"
