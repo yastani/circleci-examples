@@ -8,15 +8,12 @@ parameters:
     description: An internal flag to prevent integration local test from running before a development version has been created.
     type: boolean
     default: false
-
 jobs:
   test_local_invoke:
     executor: sam/default
     steps:
       - checkout
-      - sam/install:
-          aws-access-key-id: $AWS_ACCESS_KEY_ID_DEV
-          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY_DEV
+      - sam/install
       - sam/local-start-api:
           template: "./sam-app/template.yaml"
           endpoint: "hello"
@@ -35,6 +32,7 @@ workflows:
           template: "./sam-app/template.yaml"
           stack-name: "sam-deploy-app-dev"
           s3-bucket: "testing-orbs-yastani-dev"
+          context: sam-app-dev
           filters:
             branches:
               only:
@@ -47,6 +45,7 @@ workflows:
           template: "./sam-app/template.yaml"
           stack-name: "sam-deploy-app-prod"
           s3-bucket: "testing-orbs-yastani"
+          context: sam-app-prod
           filters:
             branches:
               ignore: /.*/
