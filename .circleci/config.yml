@@ -23,11 +23,11 @@ jobs:
     executor: sam/default
     steps:
       - sam/deploy:
-          capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
+          #capabilities: '"CAPABILITY_IAM" "CAPABILITY_NAMED_IAM"'
           name: deploy-app-dev
           template: "./sam-app/template.yaml"
           stack-name: "orb-deploy-app-dev"
-          s3-bucket: "testing-orbs-yastani"
+          #s3-bucket: "testing-orbs-yastani"
 
 workflows: 
   integration_local_test:
