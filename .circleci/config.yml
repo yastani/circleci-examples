@@ -33,10 +33,10 @@ workflows:
           template: "./sam-app/template.yaml"
           stack-name: "sam-deploy-app-dev"
           s3-bucket: "testing-orbs-yastani-dev"
-          filters:
-            branches:
-              only:
-                - main
+        filters:
+          branches:
+            only:
+              - main
   delivery_deploy_app_prod:
     jobs:
       - sam/deploy:
@@ -45,7 +45,7 @@ workflows:
           template: "./sam-app/template.yaml"
           stack-name: "sam-deploy-app-prod"
           s3-bucket: "testing-orbs-yastani"
-          filters:
-            tags:
-              only:
-                - /^v\d+\.\d+\.\d+$/
+        filters:
+          tags:
+            only:
+              - /^v\d+\.\d+\.\d+$/
